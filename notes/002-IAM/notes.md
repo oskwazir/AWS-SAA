@@ -24,7 +24,7 @@ Policies are written in JSON. AWS has many existing policies you can use.
 * For internal AWS resources only.
 * *One* Role per application.
 
-##IAM Federation
+## IAM Federation
 Enterprise solution for using identity federaion and SAML. Like using Active Directory.
 
 
