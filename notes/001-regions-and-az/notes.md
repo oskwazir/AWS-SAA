@@ -1,4 +1,4 @@
-#AWS Regions and AZs
+# AWS Regions and AZs
 
 ## Regions
 * Regions exist all around the world. Each region is a set of datacenters.
