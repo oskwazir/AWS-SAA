@@ -1,3 +1,4 @@
-*.pem
 *v3.pdf
 *.zip
+/keys
+/src/code
