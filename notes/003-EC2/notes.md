@@ -51,3 +51,13 @@ If you need a fixed IP, you will need an Elastic IP. Elastic IP is a public IPv4
 * Try to avoid using Elastic IP.
 * Use random public IP and attach a domain to it.
 * Or better yet use a Load Balance and don't use a Public IP for your EC2 instances.
+
+** You will be charged for an Elastic IP if it is not associated with an EC2 instance**
+
+### EC2 User Data
+
+* You can bootstrap an instance using EC2 User Data script
+* A bootstrap script runs once when the instance first starts
+* Script runs as super user
+
+The bootstrap script can be added when Launching an instance under Configure Instance Details -> Advanced Details -> User Data.
