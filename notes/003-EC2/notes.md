@@ -168,3 +168,37 @@ You must first cancel the Spot Requests and then terminate the Spot instances
 	** capacity optimized: pool with optimal capacity for number of instances
 
 **Spot Fleet allows us to automatically request Spot Instances with the lowest price**
+
+## EC2 Instance Types Deep Dive
+
+* R: RAM - Memory intense
+* C: CPU - Compute
+* M: Medium - General/Web App
+* I: IO - Instance Storage/Database
+* G: GPU - Video Rendering/ML
+* T2/T3 Burstable: Burstable (up to a capacity)
+* T2/T3 Unlimited: Unlimited Burst
+
+[ec2instances.info](https://www.ec2instances.info)
+
+### Burstable Instance (T2/T3)
+
+* Overall CPU has okay performance
+* During a spike in load, you can burst for higher CPU usage
+* Bursting consumes burst credits
+* If credits are gone, CPU performance drops
+* Over time you acrue credits when not bursting
+* If you constantly run out of credits, move to another instance type
+* You can see credit usage in CloudWatch
+
+[Earning CPU credits](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html#earning-CPU-credits)
+
+### Unlimited (T2/T3)
+
+* You can have unlimited burst credit balance
+* You pay more if you go over your credit balance but you don't lose performance
+* Careful with costs since this is relatively newish (2017)
+
+[T2 Unlimited – Going Beyond the Burst with High Performance](https://aws.amazon.com/blogs/aws/new-t2-unlimited-going-beyond-the-burst-with-high-performance/)
+
+> The hourly T2 instance price covers all interim spikes in usage if the average CPU utilization is lower than the baseline over a 24-hour window. There’s a small hourly charge if the instance runs at higher CPU utilization for a prolonged period of time. For example, if you run a t2.micro instance at an average of 15% utilization (5% above the baseline) for 24 hours you will be charged an additional 6 cents (5 cents per vCPU-hour * 1 vCPU * 5% * 24 hours).
