@@ -123,3 +123,27 @@ The bootstrap script can be added when Launching an instance under Configure Ins
 * No control over instance placement (can move hardware after Stop/Start)
 * No Visibility into underlying sockets & physical cores of the hardware
 * No affinity between a host and instance
+
+## Deep Dive into EC2 Spot Instance Requests
+
+* Up to 90% discount compared to on-demand
+* Spot price varies among AZ in an availability zone
+* Define a **max spot price** and get the instance while **current spot price < your max bid**
+* Hourly spot prices varies based on offer and capacity
+* If **current spot price > max bid** you can choose to stop OR terminate your instance in a 2 minute grace period.
+
+### Strategy: Spot Block
+
+* *block* a spot instance for a specific time frame without interruptions
+* In rare instances the instance may be reclaimed.
+
+### Hot to terminate a spot instance
+
+A spot requests contains the following
+1. Maximum price,
+1. Desired number of instances
+1. Launch specification
+1. Request type: one-time | persistent
+1. Valid from - Valid until
+
+![Spot Instance Creation](../images/spot_lifecycle.png)
