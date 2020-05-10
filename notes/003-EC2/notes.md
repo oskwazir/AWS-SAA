@@ -1,5 +1,27 @@
 ## EC2
 
+* Billed by the second
+* On linux/mac use SSH, on Windos use Putty
+* SSH is on port 22, lock down your security group
+* Timeout issues ->  Security group issues
+* Permissions issues -> `chmod 0400` on the pem file
+* Security Groups can reference other Security Groups
+* Difference between Private, Public and Elastic IPs
+* Bootstrap script is called User DAta
+* EC2 launch modes:
+	* On-Demand
+	* Reserved
+	* Spot instances
+	* Dedicated hosts
+* Instance Types: R,C,M,I,G,T2/T3
+* Create AMIs to pre-install software
+* AMIs copied across regions and accounts
+* EC2 instances can be started in placement groups
+	* Cluster
+	* Spread
+	* Partition
+
+
 * Renting a virtual machine EC2
 * Storing data on virtual drives EBS
 * Distributing load across machines ELB
@@ -282,3 +304,48 @@ Same Rack & AZ.
 > A spread placement group is a group of instances that are each placed on distinct racks, with each rack having its own network and power source. 
 
 > Spread placement groups are recommended for applications that have a small number of critical instances that should be kept separate from each other. Launching instances in a spread placement group reduces the risk of simultaneous failures that might occur when instances share the same racks. Spread placement groups provide access to distinct racks, and are therefore suitable for mixing instance types or launching instances over time. 
+
+## ENI - Elastic Network Interface
+
+* Logical component in a VPC that represents a virtual network card (aka network interface). Bound within an AZ.
+
+If you assign a seconday private IP to an ENI, you can redirect the ENI to another EC2 instance for failover.
+
+A ENI can include the following attributes:
+
+* A primary private IPv4 address from the IPv4 address range of your VPC
+* *One or more secondary private IPv4 addresses from the IPv4 address range of your VPC*
+* One Elastic IP address (IPv4) per private IPv4 address
+* One public IPv4 address
+* One or more IPv6 addresses
+* *One or more security groups*
+* A MAC address
+* A source/destination check flag
+* A description
+
+> You can create and configure network interfaces in your account and attach them to instances in your VPC. Your account might also have requester-managed network interfaces, which are created and managed by AWS services to enable you to use other resources and services. You cannot manage these network interfaces yourself
+
+## EC2 Hibernate
+
+EC2 instances can be stopped or terminated
+
+* Stop: The EBS is kept intact
+* Terminate: The EBS volumes (root) are also setup to be destroyed
+* Start: 
+	* First start: OS Boots and EC2 User Dta script runs
+	* Subsequent starts: OS boots
+	* Then appilcation starts, caches warm up - this takes time
+* Hibernate:
+	* All RAM is preserved
+	* Boot time is much faster since it's not a cold start
+	* RAM state is written to a file in the root EBS volume
+	* The root EBS volume must be encrypted.
+	* Only supports: C3, C4, C5, M3, M4, M5, R3, R4, and R5
+	* RAM size must be less than 150GB
+	* Not supported for bare metal
+	* AMI: Amazon Linux 2, Linux AMI, Ubuntu, and Windows
+	* Root Volume: Must be EBS, encrypted, not instance store and large
+	* Available for On-Demand and Reserved Instances
+	* Can not hibernate for more than 60 days
+
+![Hibernation flow](../images/hibernation-flow.png)
