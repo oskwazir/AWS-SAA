@@ -147,3 +147,24 @@ A spot requests contains the following
 1. Valid from - Valid until
 
 ![Spot Instance Creation](../images/spot_lifecycle.png)
+
+You can only cancel Spot Instance requests that are **open**, **active** or **disabled**
+![Spot Instance Request States](../images/spot_request_states.png)
+
+**Cancelling a Spot Request does not terminate instances**
+
+You must first cancel the Spot Requests and then terminate the Spot instances
+
+## Spot Fleets
+
+* Spot Fleets = set of Spot Instances + (optional) On-Demand Instances
+* The Spot Fleet will try to meet the target capacity with price constraints
+	* Define possible launch pools e.g instance type + OS + AZ
+	* Can have multiple launch pools for fleet to choose
+	* Spot fleet stops launching instances when reaching capacity or max cost
+* Strategies to allocate Spot Instances
+	* lowest price: from the pool with the lowest price (cost optimization, short workload)
+	* diversified: distributed across all pools (great for availability, long workloads)
+	** capacity optimized: pool with optimal capacity for number of instances
+
+**Spot Fleet allows us to automatically request Spot Instances with the lowest price**
