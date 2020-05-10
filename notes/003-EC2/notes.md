@@ -202,3 +202,83 @@ You must first cancel the Spot Requests and then terminate the Spot instances
 [T2 Unlimited – Going Beyond the Burst with High Performance](https://aws.amazon.com/blogs/aws/new-t2-unlimited-going-beyond-the-burst-with-high-performance/)
 
 > The hourly T2 instance price covers all interim spikes in usage if the average CPU utilization is lower than the baseline over a 24-hour window. There’s a small hourly charge if the instance runs at higher CPU utilization for a prolonged period of time. For example, if you run a t2.micro instance at an average of 15% utilization (5% above the baseline) for 24 hours you will be charged an additional 6 cents (5 cents per vCPU-hour * 1 vCPU * 5% * 24 hours).
+
+> T2 Unlimited instances have the ability to borrow an entire day’s worth of future credits, allowing them to perform additional bursting.
+
+## EC2 AMIs
+
+Creating a custom AMI allows you to 
+* pre-install packages & apps,
+* optimize boot time,
+* load enterprise software,
+* add Active Directory
+* use third-party AMIs 
+
+AMIs are region specific
+
+### Public AMIs
+
+* You can rent an AMI by the hour
+
+** Do not use AMIs you do not trust**
+
+### AMI Storage
+
+* AMIs live in S3
+* By default AMIs are private, locked for account & region
+* You can make AMIs public and share them with AWS accounts or sell them on the marketplace
+
+### AMI Pricing
+
+* Pay for S3 storage
+* Cheap to store AMIs
+
+### Copying AMIs
+
+**Important for exam: Read about rules for copying AMIs**
+[Copying AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/CopyingAMIs.html)
+
+## Placement Groups
+
+When you need control over the EC2 Instance placement strategy
+
+When creating a placement group you specify one of the following
+
+1. Cluster - Cluster instances into low-latency group in a single AZ
+1. Spread - Spread instances across underlying hardware (max 7 instances per group per AZ) - critical applications
+1. Partition - Spreads instances across many different partitions (which rely on different set of racks) within an AZ. Scales to 100s of EC2 instances per group (Kafka, Cassandra, Hadoop)
+
+### Cluster Placement Groups
+
+Same Rack & AZ. 
+
+> Cluster placement groups are recommended for applications that benefit from low network latency, high network throughput, or both. They are also recommended when the majority of the network traffic is between the instances in the group.
+
+* Pros: Great network (throughput limit of up to 10 Gbps for TCP/IP traffic
+* Cons: Rack failure all instances fail together.
+
+### Partition Placement Groups
+
+* UP to 7 partitions per AZ
+* Up to 100s of EC2 instances
+* Instances in a partition do not share racks with instances in another partitions
+* A partition failure affects many EC2 instances but not other partitions
+* EC2 instances get access to partitions metadata
+
+> Partition placement groups help reduce the likelihood of correlated hardware failures for your application. When using partition placement groups, Amazon EC2 divides each group into logical segments called partitions. Amazon EC2 ensures that each partition within a placement group has its own set of racks. Each rack has its own network and power source. No two partitions within a placement group share the same racks, allowing you to isolate the impact of hardware failure within your application. 
+
+> Partition placement groups can be used to deploy large distributed and replicated workloads, such as HDFS, HBase, and Cassandra, across distinct racks
+
+>  ...partition placement groups offer visibility into the partitions — you can see which instances are in which partitions. You can share this information with topology-aware applications, such as HDFS, HBase, and Cassandra. These applications use this information to make intelligent data replication decisions for increasing data availability and durability. 
+
+> Partition placement groups help reduce the likelihood of correlated hardware failures for your application. When using partition placement groups, Amazon EC2 divides each group into logical segments called partitions. Amazon EC2 ensures that each partition within a placement group has its own set of racks. Each rack has its own network and power source. No two partitions within a placement group share the same racks, allowing you to isolate the impact of hardware failure within your application. 
+
+### Spread Placement Groups
+
+* Pros: Can span AZ. Reduced risk of failure. EC2 instances on different hardware
+* Cons: Limited to 7 instances per AZ per placement group
+
+
+> A spread placement group is a group of instances that are each placed on distinct racks, with each rack having its own network and power source. 
+
+> Spread placement groups are recommended for applications that have a small number of critical instances that should be kept separate from each other. Launching instances in a spread placement group reduces the risk of simultaneous failures that might occur when instances share the same racks. Spread placement groups provide access to distinct racks, and are therefore suitable for mixing instance types or launching instances over time. 
