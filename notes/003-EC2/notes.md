@@ -61,3 +61,65 @@ If you need a fixed IP, you will need an Elastic IP. Elastic IP is a public IPv4
 * Script runs as super user
 
 The bootstrap script can be added when Launching an instance under Configure Instance Details -> Advanced Details -> User Data.
+
+### EC2 Instance Launch Types
+
+* On Demand Instances: short workload, predictable pricing
+* Reserved (Minimum 1 year)
+	* Reserved: When you know your workload time
+	* Convertible Reserved Instance: Long workloads with flexible instances. Change instance types.
+	* Scheduled Reserved Instances: Every Thursday 3pm - 6pm. Good for batch processing.
+* Spot Instances: Short workloads for cheap but you can lose an instance
+* Dedicated Instance: No customers share the hardware
+* Dedicated Hosts: Book an entire **physical** server, control instance placement
+
+### EC2 On Demand
+
+* Pay for what you use (billing per second after first minute)
+* Has highest cost with no upfront payment
+* No commitment
+* Recommended for short-term and un-interrupted workloads, where you can't predict how the app will behave 
+
+### EC2 Reserved Instances
+
+* Pay upfront for what you use with long term commitment
+* Reservation period is 1 or 3 years
+* **Reserved Instances**
+	* Up to 75% discount compared to On-Demand
+	* Reserve a specific instance type
+	* Recommended for steady state usage like Databases
+* **Convertible Reserved Instance**
+	* Can change EC2 instance type
+	* 54% discount
+* **Scheduled Reserved Instances**
+	* Launch window with time you reserve
+	* When you need fraction of time for a day/week/month
+
+### EC2 Spot Instances
+
+* Up to 90% discount compared to On-Demand
+* You can lose the instance if your max price is less than the current spot price
+* Useful for workloads resilient to failure
+	* Batch Jobs
+	* Data Analysis
+	* Image processing
+	* Anything that can tolerate failure and resume later
+	* Not good for databases or critical jobs
+* Great combo: Reserved Instances for baseline & On-Demand & Spot for peak processing
+
+### EC2 Dedicated Hosts
+* Physical dedicated EC2 server for you to use
+* Full control of EC2 placement
+* Affinity between a host and instance
+* Visibility into underlying sockets & physical cores of the hardware
+* 3 year reservation period
+* More expensive
+* Useful if you have a Bring your own license model (BYOL)
+* If you have strong regulatory & compliance requirements
+
+### EC2 Dedicated Instances
+* Instance running on hardware dedicated to you
+* May share hardware with other instances in the same account
+* No control over instance placement (can move hardware after Stop/Start)
+* No Visibility into underlying sockets & physical cores of the hardware
+* No affinity between a host and instance
