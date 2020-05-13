@@ -1,5 +1,7 @@
 ## EC2
 
+** Check EC2 Savings Plans - AWS Summit **
+
 * Billed by the second
 * On linux/mac use SSH, on Windos use Putty
 * SSH is on port 22, lock down your security group
